@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const TOKEN_KEY = "token";
+
 // sau này thì import từ env vào
-export const api = axios.create({
+const api = axios.create({
   baseURL:  "http://localhost:8000/api",
   headers: {
     "Content-Type": "application/json",
@@ -27,7 +29,7 @@ api.interceptors.response.use(
     // Đưa người dùng trở lại trang đăng nhập nếu token không hợp lệ
     if (error.response?.status === 401) {
       localStorage.removeItem(TOKEN_KEY);
-      if (window.location.pathname !== "/login") {
+      if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
         window.location.href = "/login";
       }
     }
@@ -35,3 +37,4 @@ api.interceptors.response.use(
   }
 )
 
+export default api;
